@@ -1,0 +1,8 @@
+{
+	"objects": [
+		{ "type": "cube", "color": "0xff22ff", "x": 0, "y": 0, "sec": 0.1},
+		{ "type": "cube", "color": "", "x": 1, "y": 0, "sec": 0.1},
+		{ "type": "cube", "color": "transparent", "x": 2, "y": 0, "sec": 0.1},
+		{ "type": "cube", "color": "0xff22ff", "x": 3, "y": 0, "sec": 0.1}
+	]
+}
