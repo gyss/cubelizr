@@ -1,3 +1,6 @@
+	
+	var TILE_SIZE = 50;
+
 	var container, stats;
 	var camera, scene, renderer;
 
@@ -5,6 +8,7 @@
 	var cube;
 	var direction = 1;
 
+	var cubes = [];
 
 //http://www.phpied.com/3-ways-to-define-a-javascript-class/
 
@@ -13,23 +17,17 @@
 
 
 
-	var position = { y: 100 };
-	var target = { y: 0 };
-	var tween = new TWEEN.Tween(position).to(target, 2000);
+	// Retrieve json configuration file
+	jQuery.getJSON("data.json", function( data ) {
 
-	tween.delay(500);
+		$.each( data.objects , function( key, val ) {
+			console.log(val);
 
-	tween.easing(TWEEN.Easing.Elastic.InOut);
-
-	tween.onUpdate(function() {
-		cube.position.y = position.y;
+			create_cube(val.x, val.y, val.sec); 
+			
+		});
+		
 	});
-
-	tween.start();
-
-
-
-
 
 
 
@@ -98,7 +96,7 @@
 		init_grid(scene);
 		
 		// Cubes
-		init_cubes(scene);
+		//init_cubes(scene);
 		
 		// Lights
 		init_light(scene);
@@ -111,7 +109,7 @@
 	//
 	function init_grid(scene) {
 
-		var size = 250, step = 50;
+		var size = 250, step = TILE_SIZE;
 
 		var geometry = new THREE.Geometry();
 
@@ -143,7 +141,7 @@
 	//
 	function init_cubes(scene) {
 		
-		var geometry = new THREE.BoxGeometry( 50, 50, 50 );
+		var geometry = new THREE.BoxGeometry( TILE_SIZE, TILE_SIZE, TILE_SIZE );
 		var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5 } );
 
 		/*
@@ -170,6 +168,47 @@
 		cube.position.z =  0;
 
 		scene.add( cube );
+
+	}
+
+	function create_cube(x, y, delay) {
+
+		var new_cube = {};
+
+		// - 3dObject
+		var geometry = new THREE.BoxGeometry( TILE_SIZE, TILE_SIZE, TILE_SIZE );
+		var material = new THREE.MeshLambertMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5 } );
+
+		cube = new THREE.Mesh( geometry, material );
+
+		cube.position.x = TILE_SIZE * x ;
+		cube.position.y = 100;
+		cube.position.z = TILE_SIZE * y ;
+
+		scene.add( cube );
+
+		new_cube.cube = cube;
+
+		// - Tween -
+		var position = { y: 100 };
+		var target = { y: 0 };
+		var tween = new TWEEN.Tween(position).to(target, 2000);
+
+		tween.delay(delay * 100);
+
+		tween.easing(TWEEN.Easing.Elastic.InOut);
+
+		tween.onUpdate(function() {
+			new_cube.cube.position.y = position.y;
+		});
+
+		tween.start();
+		
+		new_cube.tween = tween;
+
+
+		// Add cube to the list
+		cubes.push(new_cube);
 
 	}
 
