@@ -1,16 +1,16 @@
 {
 	"objects": [
 
-		{ "type": "cube", "color": "0xff22ff", "x": 0, "y": 0, "sec": 0.1},
-		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 0, "sec": 0.2},
-		{ "type": "cube", "color": "transparent", "x": 2, "y": 0, "sec": 0.3},
-		{ "type": "cube", "color": "0xff22ff", "x": 3, "y": 0, "sec": 0.4},
+		{ "type": "cube", "color": "0xff22ff", "x": 0, "y": 0, "start": 0.1, "duration": 1},
+		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 0, "start": 0.2},
+		{ "type": "cube", "color": "transparent", "x": 2, "y": 0, "start": 0.3},
+		{ "type": "cube", "color": "0xff22ff", "x": 3, "y": 0, "start": 0.4},
 
 
-		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 1, "sec": 0.5},
-		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 2, "sec": 0.6},
-		{ "type": "cube", "color": "transparent", "x": 1, "y": 3, "sec": 0.7},
-		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 4, "sec": 0.8}
+		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 1, "start": 0.5},
+		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 2, "start": 0.6},
+		{ "type": "cube", "color": "transparent", "x": 1, "y": 3, "start": 0.7},
+		{ "type": "cube", "color": "0xff22ff", "x": 1, "y": 4, "start": 0.8}
 
 	]
 }

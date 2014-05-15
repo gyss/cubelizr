@@ -21,13 +21,21 @@
 	jQuery.getJSON("data.json", function( data ) {
 
 		$.each( data.objects , function( key, val ) {
+			
 			console.log(val);
 
-			create_cube(val.x, val.y, val.sec); 
+			var duration = val.duration ? val.duration : 2;
+			var start = val.start ? val.start : 0.1;
+
+			create_cube(val.x, val.y, val.start, duration); 
 			
 		});
 		
 	});
+
+
+
+
 
 
 
@@ -171,7 +179,7 @@
 
 	}
 
-	function create_cube(x, y, delay) {
+	function create_cube(x, y, start, duration) {
 
 		var new_cube = {};
 
@@ -192,9 +200,9 @@
 		// - Tween -
 		var position = { y: 100 };
 		var target = { y: 0 };
-		var tween = new TWEEN.Tween(position).to(target, 2000);
+		var tween = new TWEEN.Tween(position).to(target, duration*1000);
 
-		tween.delay(delay * 100);
+		tween.delay(start * 100);
 
 		tween.easing(TWEEN.Easing.Elastic.InOut);
 
