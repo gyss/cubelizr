@@ -1,0 +1,37 @@
+{
+	"defaults": {
+		"type": "cube",
+		"color": "#00ccff",
+		"opacity": 1.0,
+		"start": 0.1,
+		"duration": 2.0,
+		"animation": "Elastic.InOut",
+		"height": 1000
+	},
+
+
+	"objects": [
+
+		{ "color": "#777777", "x": 0, "y": 0, "start": 0.1, "duration": 1},
+		{ "color": "#777777", "x": 7, "y": 0, "start": 0.1, "duration": 1},
+		{ "color": "#777777", "x": 0, "y": 7, "start": 0.1, "duration": 1},
+		{ "color": "#777777", "x": 7, "y": 7, "start": 0.1, "duration": 1},
+
+		{ "color": "#555555", "x": 1, "y": 1, "start": 3.1, "duration": 1},
+		{ "color": "#555555", "x": 6, "y": 1, "start": 3.1, "duration": 1},
+		{ "color": "#555555", "x": 1, "y": 6, "start": 3.1, "duration": 1},
+		{ "color": "#555555", "x": 6, "y": 6, "start": 3.1, "duration": 1},
+
+
+		{ "type": "cube", "color": "#ff22ff", "x": 1, "y": 0, "start": 0.2},
+		{ "type": "cube", "color": "#000000", "x": 2, "y": 0, "start": 0.3},
+		{ "type": "cube", "color": "#ff22ff", "x": 3, "y": 0, "start": 0.4},
+
+
+		{ "type": "cube", "x": 1, "y": 1, "opacity": 0.5},
+		{ "type": "cube", "x": 1, "y": 2, "opacity": 0.6},
+		{ "type": "cube", "x": 1, "y": 3, "opacity": 0.7},
+		{ "type": "cube", "x": 1, "y": 4, "opacity": 0.8}
+
+	]
+}
