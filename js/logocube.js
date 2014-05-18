@@ -6,7 +6,7 @@
 		display_grid: true
 	};
 
-	var container, stats;
+	var container, stats = null;
 	var camera, scene, renderer;
 
 
@@ -21,8 +21,7 @@
 	var windowHalfY = window.innerHeight / 2;
 
 
-
-	var cubeTexture = THREE.ImageUtils.loadTexture('./img/textures/threejs.jpg');
+	var textures;
 
 	/* Types of animation: http://sole.github.io/tween.js/examples/03_graphs.html */
 
@@ -35,7 +34,7 @@
 	jQuery.getJSON("logocube.json", function( data ) {
 
 
-		// First, load default values for boxes and configuration
+		// - Load default values for objects -
 		var type = data.defaults.type ? data.defaults.type : "cube";
 		var color = data.defaults.color ? data.defaults.color : "0xff22ff";
 		var texture = data.defaults.texture ? data.defaults.texture : "";
@@ -45,13 +44,26 @@
 		var animation = data.defaults.animation ? data.defaults.animation : "TWEEN.Easing.Elastic.InOut";
 		var height = data.defaults.height ? data.defaults.height : 100;
 		
+		// - Load configuration -
 		config.mouse_control = data.config.mouse_control === 1 ? true : false;
 		config.display_grid = data.config.display_grid === 1 ? true : false;
+		config.display_stats = data.config.display_stats === 1 ? true : false;
+
+		// Stats
+		if(config.display_stats)
+			configure_stats();
 		
 		// Grid
 		if(config.display_grid)
 			init_grid(scene);
 
+		// - Load textures -
+		textures = data.textures;
+		$.each( textures , function( key, val ) {
+			val.texture = THREE.ImageUtils.loadTexture(val.url);
+		});
+
+		// - Process objects -
 		$.each( data.objects , function( key, val ) {
 
 			// Second, create elements into the world
@@ -60,14 +72,15 @@
 			var obj_opacity = val.opacity ? val.opacity : opacity;
 			var obj_start = val.start ? val.start : start;
 			var obj_duration = val.duration ? val.duration : duration;
-			var obj_animation = val.animation ? dval.animation : animation;
+			var obj_animation = val.animation ? val.animation : animation;
 			var obj_x = val.x ? val.x : 0;
 			var obj_y = val.y ? val.y : 0;
 			var obj_z = val.z ? val.z : 0;
 			var obj_height = val.height ? val.height : height;
+			var obj_texture = val.texture ? val.texture : texture;
 
 			// 1. Create object
-			var object = object_factory(obj_type, obj_color, obj_opacity);
+			var object = object_factory(obj_type, obj_color, obj_texture, obj_opacity);
 
 			// 2. Set initial position
 			translate_object(object, obj_x, obj_y, obj_height);
@@ -118,32 +131,42 @@
 
 	}
 
-	function object_factory(type, color, opacity) {
+	function object_factory(type, color, texture, opacity) {
 
 		var new_obj = {};
 
 		var geometry;
 		var mesh;
+		var material = null;
 
 		// - 3dObject -
 		switch(type)
 		{
 			case "cube":
-				geometry = new THREE.BoxGeometry( TILE_SIZE, TILE_SIZE, TILE_SIZE ); break;
+			default:
+				geometry = new THREE.BoxGeometry( TILE_SIZE, TILE_SIZE, TILE_SIZE ); 
 		}
-		
-		// Texture
-		var material = new THREE.MeshLambertMaterial({ map: cubeTexture, opacity: opacity });
-		// var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0x28c0ec });
-		/* 
+
+		// - Texture -
+		// If it's defined a texture, and exist in the array, draw it,
+		if(texture !== "")
+		{
+			var result = $.grep(textures, function(e){ return e.id == texture; });
+			if(result !== null)
+				material = new THREE.MeshLambertMaterial({ map: result[0].texture, opacity: opacity });
+		}
+		// Else draw plain colour
+		if(material === null)
+		{
 			// RGB color
-			var material = new THREE.MeshBasicMaterial({ 
+			material = new THREE.MeshBasicMaterial({ 
 				color: color, 
 				opacity: opacity, 
 				side: THREE.DoubleSide
 			});
-		*/
+		}
 
+		// - Mesh -
 		mesh = new THREE.Mesh( geometry, material );
 
 		scene.add( mesh );
@@ -188,7 +211,7 @@
 		info.style.top = '10px';
 		info.style.width = '100%';
 		info.style.textAlign = 'center';
-		info.innerHTML = '<a href="http://threejs.org" target="_blank">three.js</a> - orthographic view';
+		info.innerHTML = 'LoGoCuBe';
 		container.appendChild( info );
 
 
@@ -210,7 +233,6 @@
 		// Camera
 		camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, - 500, 1000 );
 		
-
 		// Scene
 		scene = new THREE.Scene();
 
@@ -218,9 +240,6 @@
 		camera.position.y = 200;
 		camera.position.z = 200;
 
-		//scene.position.x = -500;
-		//scene.position.y = -500;
-		//scene.position.z = -500;
 		camera.lookAt( scene.position );
 
 		// Renderer
@@ -228,12 +247,18 @@
 		renderer.setClearColor( 0xf0f0f0 );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
+		container.appendChild( renderer.domElement );
+	}
+
+	//
+	// Displays the stats (framerate)
+	//
+	function configure_stats()
+	{
 		stats = new Stats();
 		stats.domElement.style.position = 'absolute';
 		stats.domElement.style.top = '0px';
 
-
-		container.appendChild( renderer.domElement );
 		container.appendChild( stats.domElement );
 	}
 
@@ -325,7 +350,9 @@
 		requestAnimationFrame( animate );
 
 		render();
-		stats.update();
+
+		if (stats !== null)
+			stats.update();
 
 	}
 
@@ -355,12 +382,12 @@
 		windowHalfY = window.innerHeight / 2;
 
 		camera.aspect = window.innerWidth / window.innerHeight;
-		/*
+		
 		camera.left = window.innerWidth / - 2;
 		camera.right = window.innerWidth / 2;
 		camera.top = window.innerHeight / 2;
 		camera.bottom = window.innerHeight / - 2;
-		*/
+		
 		camera.updateProjectionMatrix();
 
 		renderer.setSize( window.innerWidth, window.innerHeight );

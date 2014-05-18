@@ -1,12 +1,16 @@
 {
 	"config" : {
 		"mouse_control" : 1,
-		"display_grid" : 1
+		"display_grid" : 1,
+		"display_stats" : 0
 	},
+
+	"textures": [
+		{ "id": 1, "url": "./img/textures/threejs.jpg"}
+	],
 
 	"defaults": {
 		"type": "cube",
-		"texture": "./img/textures/threejs.jpg",
 		"opacity": 1.0,
 		"start": 0.1,
 		"duration": 10.0,
@@ -14,30 +18,29 @@
 		"height": 400
 	},
 
-
 	"objects": [
 
-		{ "x": 0, "y": 0, "start": 0.1},
-		{ "x": 7, "y": 0, "start": 0.1},
-		{ "x": 0, "y": 7, "start": 0.1},
-		{ "x": 7, "y": 7, "start": 0.1},
+		{ "x": 0, "y": 0, "color": "#ff3300", "start": 0.1},
+		{ "x": 7, "y": 0, "color": "#ff3300", "start": 0.1},
+		{ "x": 0, "y": 7, "color": "#ff3300", "start": 0.1},
+		{ "x": 7, "y": 7, "color": "#ff3300", "start": 0.1},
 
-		{ "color": "#777777", "x": 1, "y": 1, "start": 3.1},
-		{ "color": "#777777", "x": 6, "y": 1, "start": 3.1},
-		{ "color": "#777777", "x": 1, "y": 6, "start": 3.1},
-		{ "color": "#777777", "x": 6, "y": 6, "start": 3.1},
+		{ "x": 1, "y": 1, "color": "#777777", "start": 3.1},
+		{ "x": 6, "y": 1, "color": "#777777", "start": 3.1},
+		{ "x": 1, "y": 6, "color": "#777777", "start": 3.1},
+		{ "x": 6, "y": 6, "color": "#777777", "start": 3.1},
 
 		{ "x": 2, "y": 2, "start": 6.1, "opacity": 0.5},
 		{ "x": 5, "y": 2, "start": 6.1, "opacity": 0.5},
 		{ "x": 2, "y": 5, "start": 6.1, "opacity": 0.5},
 		{ "x": 5, "y": 5, "start": 6.1, "opacity": 0.5},
 
-		{ "x": 3, "y": 3, "start": 6.1},
-		{ "x": 4, "y": 3, "start": 6.1},
-		{ "x": 3, "y": 4, "start": 6.1},
-		{ "x": 4, "y": 4, "start": 6.1},
+		{ "x": 3, "y": 3, "start": 6.1, "texture": 1},
+		{ "x": 4, "y": 3, "start": 6.1, "texture": 1},
+		{ "x": 3, "y": 4, "start": 6.1, "texture": 1},
+		{ "x": 4, "y": 4, "start": 6.1, "texture": 1},
 
-		{ "color": "#000000", "x": 3.5, "y": 3.5, "z": 1, "height": 300, "start": 0.1}
+		{ "color": "#00ff00", "x": 3.5, "y": 3.5, "z": 1, "height": 300, "start": 0.1, "animation": "Bounce.In"}
 
 	]
 }
