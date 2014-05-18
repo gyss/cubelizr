@@ -22,6 +22,8 @@
 
 
 
+	var cubeTexture = THREE.ImageUtils.loadTexture('./img/textures/threejs.jpg');
+
 	/* Types of animation: http://sole.github.io/tween.js/examples/03_graphs.html */
 
 
@@ -36,6 +38,7 @@
 		// First, load default values for boxes and configuration
 		var type = data.defaults.type ? data.defaults.type : "cube";
 		var color = data.defaults.color ? data.defaults.color : "0xff22ff";
+		var texture = data.defaults.texture ? data.defaults.texture : "";
 		var opacity = data.defaults.opacity ? data.defaults.opacity : "0xff22ff";
 		var start = data.defaults.start ? data.defaults.start : 0.1;
 		var duration = data.defaults.duration ? data.defaults.duration : 2.0;
@@ -129,11 +132,17 @@
 				geometry = new THREE.BoxGeometry( TILE_SIZE, TILE_SIZE, TILE_SIZE ); break;
 		}
 		
-		var material = new THREE.MeshBasicMaterial({ 
-			color: color, 
-			opacity: opacity, 
-			side: THREE.DoubleSide
-		});
+		// Texture
+		var material = new THREE.MeshLambertMaterial({ map: cubeTexture, opacity: opacity });
+		// var cubeMaterial = new THREE.MeshLambertMaterial({ map: cubeTexture, color: 0x28c0ec });
+		/* 
+			// RGB color
+			var material = new THREE.MeshBasicMaterial({ 
+				color: color, 
+				opacity: opacity, 
+				side: THREE.DoubleSide
+			});
+		*/
 
 		mesh = new THREE.Mesh( geometry, material );
 
@@ -329,7 +338,7 @@
 		if(config.mouse_control)
 		{
 			camera.position.x += ( mouseX - camera.position.x + 200) * 0.05;
-			camera.position.y += ( - mouseY - camera.position.y + 100) * 0.05;
+			camera.position.y += ( - mouseY - camera.position.y + 200) * 0.05;
 
 			camera.lookAt( scene.position );
 		}
