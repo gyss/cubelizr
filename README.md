@@ -33,12 +33,11 @@ And reference all js files in your html.
 All configuration is defined in logocube.js file.
 
 * config
-	
-** mouse_control
+	* mouse_control
 	Enables the camera movement by the mouse 
-** display_grid
+	* display_grid
 	Displays the vertex grid
-** display_stats
+	* display_stats
 	Displays the stats box with the FPS info
 
 * textures
