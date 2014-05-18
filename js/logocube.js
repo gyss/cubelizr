@@ -1,6 +1,11 @@
 	
 	var TILE_SIZE = 50;
 
+	var config = {
+		mouse_control: false,
+		display_grid: true
+	};
+
 	var container, stats;
 	var camera, scene, renderer;
 
@@ -8,6 +13,14 @@
 	var direction = 1;
 
 	var world_objects = [];
+
+
+	var mouseX = 0, mouseY = 0;
+
+	var windowHalfX = window.innerWidth / 2;
+	var windowHalfY = window.innerHeight / 2;
+
+
 
 	/* Types of animation: http://sole.github.io/tween.js/examples/03_graphs.html */
 
@@ -19,7 +32,8 @@
 	// Retrieve json configuration file
 	jQuery.getJSON("logocube.json", function( data ) {
 
-		// First, load default values
+
+		// First, load default values for boxes and configuration
 		var type = data.defaults.type ? data.defaults.type : "cube";
 		var color = data.defaults.color ? data.defaults.color : "0xff22ff";
 		var opacity = data.defaults.opacity ? data.defaults.opacity : "0xff22ff";
@@ -28,6 +42,13 @@
 		var animation = data.defaults.animation ? data.defaults.animation : "TWEEN.Easing.Elastic.InOut";
 		var height = data.defaults.height ? data.defaults.height : 100;
 		
+		config.mouse_control = data.config.mouse_control === 1 ? true : false;
+		config.display_grid = data.config.display_grid === 1 ? true : false;
+		
+		// Grid
+		if(config.display_grid)
+			init_grid(scene);
+
 		$.each( data.objects , function( key, val ) {
 
 			// Second, create elements into the world
@@ -39,6 +60,7 @@
 			var obj_animation = val.animation ? dval.animation : animation;
 			var obj_x = val.x ? val.x : 0;
 			var obj_y = val.y ? val.y : 0;
+			var obj_z = val.z ? val.z : 0;
 			var obj_height = val.height ? val.height : height;
 
 			// 1. Create object
@@ -48,7 +70,7 @@
 			translate_object(object, obj_x, obj_y, obj_height);
 
 			// 3. Configure animation
-			animate_object(object, obj_height, obj_start, obj_duration, obj_animation);
+			animate_object(object, obj_height, obj_start, obj_z, obj_duration, obj_animation);
 
 			// 4. Store object
 			world_objects.push(object);
@@ -71,11 +93,12 @@
 
 
 
-	function animate_object(obj, height, start, duration, animation) {
+	function animate_object(obj, height, start, z, duration, animation) {
 
 		// - Tween -
 		var position = { y: height };
-		var target = { y: 0 };
+		var target = { y: z * TILE_SIZE + TILE_SIZE/2 };
+
 		var tween = new TWEEN.Tween(position).to(target, duration*1000);
 
 		tween.delay(start * 100);
@@ -165,8 +188,8 @@
 		configure_world(scene);
 
 		// Events 
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 		window.addEventListener( 'resize', onWindowResize, false );
-
 	}
 
 
@@ -177,15 +200,18 @@
 	{
 		// Camera
 		camera = new THREE.OrthographicCamera( window.innerWidth / - 2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / - 2, - 500, 1000 );
-		camera.position.x = 200;
-		camera.position.y = 200;
-		camera.position.z = 200;
+		
 
 		// Scene
 		scene = new THREE.Scene();
 
-		camera.position.x = 1* 200;
-		camera.position.z = 1 * 200;
+		camera.position.x = 200;
+		camera.position.y = 200;
+		camera.position.z = 200;
+
+		//scene.position.x = -500;
+		//scene.position.y = -500;
+		//scene.position.z = -500;
 		camera.lookAt( scene.position );
 
 		// Renderer
@@ -207,9 +233,7 @@
 	//
 	function configure_world(scene)
 	{
-		// Grid
-		init_grid(scene);
-
+		
 		// Lights
 		init_light(scene);
 	}
@@ -240,9 +264,9 @@
 		var line = new THREE.Line( geometry, material );
 		line.type = THREE.LinePieces;
 
-		line.position.x = 200;
-		line.position.y = 0;
-		line.position.z = 200;
+		line.position.x = 200 - TILE_SIZE/2;
+		line.position.y = 0; 
+		line.position.z = 200 - TILE_SIZE/2;
 		
 		scene.add( line );
 	}
@@ -285,18 +309,7 @@
 
 	
 
-	function onWindowResize() {
-
-		camera.left = window.innerWidth / - 2;
-		camera.right = window.innerWidth / 2;
-		camera.top = window.innerHeight / 2;
-		camera.bottom = window.innerHeight / - 2;
-
-		camera.updateProjectionMatrix();
-
-		renderer.setSize( window.innerWidth, window.innerHeight );
-
-	}
+	
 
 	function animate() {
 
@@ -311,27 +324,48 @@
 
 	function render() {
 
-
-		/*
-		if(cube.position.y > -200) {
-			direction = -1;
-		} else if(cube.position.y < -350) {
-			direction = 1;
-		}
-		*/
-
-		//cube.position.y += (1 * direction);
-		//cube.position.y++;
-
-
-
-
 		TWEEN.update();
 
-		var timer = Date.now() * 0.0001;				
+		if(config.mouse_control)
+		{
+			camera.position.x += ( mouseX - camera.position.x + 200) * 0.05;
+			camera.position.y += ( - mouseY - camera.position.y + 100) * 0.05;
+
+			camera.lookAt( scene.position );
+		}
+
 		renderer.render( scene, camera );
+	}
+
+
+
+
+	function onWindowResize() {
+
+		windowHalfX = window.innerWidth / 2;
+		windowHalfY = window.innerHeight / 2;
+
+		camera.aspect = window.innerWidth / window.innerHeight;
+		/*
+		camera.left = window.innerWidth / - 2;
+		camera.right = window.innerWidth / 2;
+		camera.top = window.innerHeight / 2;
+		camera.bottom = window.innerHeight / - 2;
+		*/
+		camera.updateProjectionMatrix();
+
+		renderer.setSize( window.innerWidth, window.innerHeight );
 
 	}
+
+	function onDocumentMouseMove( event ) {
+
+		mouseX = ( event.clientX - windowHalfX );
+		mouseY = ( event.clientY - windowHalfY );
+
+	}
+
+	
 
 	function tween_animation(animation_str)
 	{
