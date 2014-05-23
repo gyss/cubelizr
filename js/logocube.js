@@ -60,7 +60,22 @@
 		// - Load textures -
 		textures = data.textures;
 		$.each( textures , function( key, val ) {
-			val.texture = THREE.ImageUtils.loadTexture(val.url);
+
+			if(val.url.length == 6)
+			{
+				val.material = [
+					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[0]) }),
+					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[1]) }),
+					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[2]) }),
+					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[3]) }),
+					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[4]) }),
+					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[5]) })
+				];
+			} else {
+				// val.texture = THREE.ImageUtils.loadTexture(val.url[0]);
+				val.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[0]) });
+			}
+
 		});
 
 		// - Process objects -
@@ -152,9 +167,16 @@
 		if(texture !== "")
 		{
 			var result = $.grep(textures, function(e){ return e.id == texture; });
+
 			if(result !== null)
-				material = new THREE.MeshLambertMaterial({ map: result[0].texture, opacity: opacity });
+			{
+				if(result[0].url.length == 6)
+					material = new THREE.MeshFaceMaterial( result[0].material );
+				else material = result[0].material;
+			}
+			//	material = new THREE.MeshLambertMaterial({ map: result[0].texture, opacity: opacity });
 		}
+
 		// Else draw plain colour
 		if(material === null)
 		{
@@ -162,7 +184,8 @@
 			material = new THREE.MeshBasicMaterial({ 
 				color: color, 
 				opacity: opacity, 
-				side: THREE.DoubleSide
+				side: THREE.DoubleSide,
+				wireframe: false
 			});
 		}
 
