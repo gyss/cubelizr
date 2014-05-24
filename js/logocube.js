@@ -34,6 +34,7 @@
 	jQuery.getJSON("logocube.json", function( data ) {
 
 
+
 		// - Load default values for objects -
 		var type = data.defaults.type ? data.defaults.type : "cube";
 		var color = data.defaults.color ? data.defaults.color : "0xff22ff";
@@ -49,6 +50,8 @@
 		config.display_grid = data.config.display_grid === 1 ? true : false;
 		config.display_stats = data.config.display_stats === 1 ? true : false;
 
+
+
 		// Stats
 		if(config.display_stats)
 			configure_stats();
@@ -59,24 +62,27 @@
 
 		// - Load textures -
 		textures = data.textures;
-		$.each( textures , function( key, val ) {
 
-			if(val.url.length == 6)
-			{
-				val.material = [
-					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[0]) }),
-					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[1]) }),
-					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[2]) }),
-					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[3]) }),
-					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[4]) }),
-					new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[5]) })
-				];
-			} else {
-				// val.texture = THREE.ImageUtils.loadTexture(val.url[0]);
-				val.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[0]) });
-			}
+		if(textures)
+			$.each( textures , function( key, val ) {
 
-		});
+				if(val.url.length == 6)
+				{
+					val.material = [
+						new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[0]) }),
+						new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[1]) }),
+						new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[2]) }),
+						new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[3]) }),
+						new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[4]) }),
+						new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[5]) })
+					];
+				} else {
+					// val.texture = THREE.ImageUtils.loadTexture(val.url[0]);
+					val.material = new THREE.MeshLambertMaterial({ map: THREE.ImageUtils.loadTexture(val.url[0]) });
+				}
+
+			});
+
 
 		// - Process objects -
 		$.each( data.objects , function( key, val ) {

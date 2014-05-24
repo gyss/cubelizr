@@ -5,11 +5,6 @@
 		"display_stats" : 0
 	},
 
-	"textures": [
-		{ "id": 1, "url": ["./img/textures/threejs.jpg"]},
-		{ "id": 2, "url": ["./img/textures/1.png", "./img/textures/2.png", "./img/textures/3.png", "./img/textures/4.png", "./img/textures/5.png", "./img/textures/6.png"]}
-	],
-
 	"defaults": {
 		"type": "cube",
 		"opacity": 1.0,
