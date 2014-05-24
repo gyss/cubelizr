@@ -31,7 +31,7 @@
 
 
 	// Retrieve json configuration file
-	jQuery.getJSON("logocube.json", function( data ) {
+	jQuery.getJSON("logocube_textures.json", function( data ) {
 
 
 
