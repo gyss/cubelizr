@@ -1,7 +1,7 @@
 <html>
 
 	<head>
-		<title>Logocube</title>
+		<title>Cubelizr</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	</head>
@@ -14,8 +14,55 @@
 		<script src="js/lib/stats.min.js"></script>
 		<script src="js/lib/tween.js"></script>
 
-		<!-- Logocube logic -->
-		<script src="js/logocube.js"></script>
+		<!-- Cubelizr logic -->
+		<script src="js/cubelizr.js"></script>
+
+
+		<script>
+
+			$( document ).ready(function() {
+
+				/*
+				var logo = new Cubelizr({
+					config: {
+						"mouse_control" : 0,
+						"display_grid" : 1,
+						"display_stats" : 0
+					},
+					defaults: {},
+					textures: [],
+					objects: [],
+
+					tilesize: 50,
+					zone: ".div",
+					height: 200,
+					width: 200
+				});
+				*/
+
+				
+				var logo = new Cubelizr({
+					url: "cubelizr_textures.json",
+					tilesize: 50,
+					zone: "#part2",
+					height: 200,
+					width: 200
+				});
+				
+
+			});
+
+		</script>
+
+		<div id="part1" style="background-color: #00ff00; width:400px; height: 300px">
+asd
+		</div>
+		<div id="part2" style="background-color: #0000ff; width:400px; height: 300px">
+
+		</div>
+		<div id="part3" style="background-color: #ff0000; width:400px; height: 300px">
+wfgdfg
+		</div>
 
 </body>
 </html>

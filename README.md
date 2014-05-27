@@ -1,12 +1,13 @@
-logocube
+cubelizr
 ========
 
 #### JavaScript Cube Animator ####
 
-If you like bricks you can animate easily your own logo in your website.
+Build easily a cube-craft animated logo and put it in your web.
+Cubelizr uses Three.js and it only works in browsers compatible with WebGL.
 
-LoGoCuBe uses Three.js and it only works in browsers compatible with WebGL.
-
+The only thing you have to do is to play with a JSON file to configure the desired design and animations.
+We provide you some JSON examples.
 
 ## Prerequisites
 * Three.js - http://threejs.org/
@@ -22,15 +23,15 @@ Download all files required:
 * js/lib/stats.min.js
 * js/lib/three.min.js
 * js/lib/tween.js
-* js/logocube.js
+* js/cubelizr.js
 
-* logocube.json
+* cubelizr.json
 
 And reference all js files in your html.
 
 ## Configuration
 
-All configuration is defined in logocube.js file.
+All configuration is defined in cubelizr.json file.
 
 * config
 	* mouse_control: Enables the camera movement by the mouse 
@@ -76,3 +77,5 @@ All configuration is defined in logocube.js file.
 
 If you notice that the animation is not working correctly make sure javascript is not crashing.
 Open the console of your browser and refresh the page.
+
+If nothing else works, just open a ticket and we will solve it as soon as possible.
