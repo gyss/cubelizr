@@ -1,6 +1,6 @@
 {
 	"config" : {
-		"mouse_control" : 0,
+		"mouse_control" : 1,
 		"display_grid" : 1,
 		"display_stats" : 0
 	},

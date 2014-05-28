@@ -8,25 +8,12 @@
 
 function Cubelizr(init_config) {
 
-	var tile_size = init_config.tilesize; 
-
 	// Canvas properties
 	var mouseX = 0, mouseY = 0;
-
-	// ????? use windows or init_config ?????
-
-
-
-	var canvasWidth = 200; // window.innerWidth
-	var canvasHeight = 200; // window.innerWidth
-	var windowHalfX = canvasWidth / 2;
-	var windowHalfY = canvasHeight / 2;
 
 	// ThreeJS 
 	var container, stats = null;
 	var camera, scene, renderer;
-
-
 
 	// Global configuration
 	var config = {};
@@ -40,40 +27,63 @@ function Cubelizr(init_config) {
 	var world_objects = [];
 
 
+	var canvasWidth = 0; 
+	var canvasHeight = 0;
+	var windowHalfX = 0;
+	var windowHalfY = 0;
+
+
+
 
 
 	//
 	// Lets process the user data
 	//
-	var initialize = function() {
+	var validateUserInput = function() {
 
+		// Get DOM element for work in
 		container = $(init_config.zone);
 		if (!container.length ) {
 			console.log( "Cubelizr: please configure a zone (selector) for place the canvas." );
 			return;
 		}
+
+		// Set tile size
+		if(typeof init_config.tilesize == 'undefined' || isNaN(init_config.tilesize))
+			init_config.tilesize = 50;
+		if(typeof init_config.gridsize == 'undefined' || isNaN(init_config.gridsize))
+			init_config.gridsize = 10;
+
+		// Set the size of the canvas
+		if(typeof init_config.height != 'undefined')
+			canvasHeight = init_config.height;
+		else canvasHeight = container.height();
+
+		if(typeof init_config.width != 'undefined') 
+			canvasWidth = init_config.width;
+		else canvasWidth = container.width();
+
+		windowHalfX = canvasWidth / 2;
+		windowHalfY = canvasHeight / 2;
 	
-		if(typeof init_config.config != 'undefined')
-			processUserConfiguration(init_config.config);
+		// Set valid color for canvas
+		if(typeof init_config.backgroundColor == 'undefined' || !isValidHexColor(init_config.backgroundColor))
+			init_config.backgroundColor = container.css('backgroundColor');
 
-		if(typeof init_config.defaults != 'undefined')
-			processUserDefaults(init_config.defaults);
+		if(typeof init_config.backgroundColor != 'undefined')
+			processUserConfiguration(init_config.backgroundColor);
 
-		if(typeof init_config.textures != 'undefined')
-			processUserTextures(init_config.textures);
 
-		if(typeof init_config.objects != 'undefined')
-			processUserData(init_config.objects);
+		// Process the configuration of the cubes
+		processUserInput(init_config);
+		
 
 		if(typeof init_config.url != 'undefined') {
 
 			// Retrieve json configuration file
 			jQuery.getJSON(init_config.url, function( data ) {
 
-				processUserConfiguration(data.config);
-				processUserDefaults(data.defaults);
-				processUserTextures(data.textures);
-				processUserData(data.objects);
+				processUserInput(data);
 	
 			}).fail(function() {
 
@@ -86,7 +96,7 @@ function Cubelizr(init_config) {
 			});
 		}
 
-		// ???? executed before?
+		// ???? executed before ????
 		//initCanvas();
 
 	};
@@ -98,15 +108,13 @@ function Cubelizr(init_config) {
 	//
 	//
 
-
 	var initCanvas = function() {
 
 		// 1. Create canvas and scene
 		configureScene();
 
-
-		// 2. Draw wrold objects
-		
+		// 2. Draw world objects
+		configureWorldObjects();
 
 		// Lights
 		configureLights();
@@ -119,14 +127,13 @@ function Cubelizr(init_config) {
 		if(config.display_grid)
 			featureGrid();
 
-
 		// 3. Init draw loop func
 		draw();
 
 
 		// Events 
 		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-		window.addEventListener( 'resize', onWindowResize, false );	
+		//window.addEventListener( 'resize', onWindowResize, false );	
 
 	};
 
@@ -156,7 +163,7 @@ function Cubelizr(init_config) {
 	var configureScene = function() {
 
 		// Camera
-		camera = new THREE.OrthographicCamera( canvasWidth / - 2, canvasWidth / 2, canvasHeight / 2, canvasHeight / - 2, - 500, 1000 );
+		camera = new THREE.OrthographicCamera( canvasWidth / - 2, canvasWidth / 2, canvasHeight / 2, canvasHeight / - 2, - 500, 5000 );
 		
 		// Scene
 		scene = new THREE.Scene();
@@ -169,11 +176,21 @@ function Cubelizr(init_config) {
 
 		// Renderer
 		renderer = new THREE.CanvasRenderer();
-		renderer.setClearColor( 0xf0f0f0 );
+		renderer.setClearColor( init_config.backgroundColor );
 		renderer.setSize( canvasWidth, canvasHeight );
 
 		container.append( renderer.domElement );
 	};
+
+	// Add world objects to the scene
+	var configureWorldObjects = function() {
+
+		$.each( world_objects , function( key, val ) {
+			val.tween.start();
+			scene.add(val.getMesh());
+		});
+
+	}
 
 	// Light Initialization
 	var configureLights = function() {
@@ -214,7 +231,8 @@ function Cubelizr(init_config) {
 	// Grid Initialization
 	var featureGrid = function() {
 
-		var size = 250, step = tile_size;
+		var size = (init_config.gridsize * init_config.tilesize)/2;
+		var step = init_config.tilesize;
 
 		var geometry = new THREE.Geometry();
 
@@ -233,9 +251,15 @@ function Cubelizr(init_config) {
 		var line = new THREE.Line( geometry, material );
 		line.type = THREE.LinePieces;
 
-		line.position.x = 200 - tile_size/2;
-		line.position.y = 0; 
-		line.position.z = 200 - tile_size/2;
+		//line.position.x = 0;
+		//line.position.y = 0; 
+		//line.position.z = 0;
+
+		if(init_config.gridsize % 2 == 0)
+		{
+			line.position.x -= init_config.tilesize/2;
+			line.position.z -= init_config.tilesize/2;
+		}
 		
 		scene.add( line );
 	};
@@ -252,6 +276,20 @@ function Cubelizr(init_config) {
 	//
 	// Process entry JSON data
 	//
+
+	var processUserInput = function(input) {
+		if(typeof input.config != 'undefined')
+			processUserConfiguration(input.config);
+
+		if(typeof input.defaults != 'undefined')
+			processUserDefaults(input.defaults);
+
+		if(typeof input.textures != 'undefined')
+			processUserTextures(input.textures);
+
+		if(typeof input.objects != 'undefined')
+			processUserData(input.objects);
+	}
 
 	// - Load features configuration -
 	var processUserConfiguration = function(user_conf) {
@@ -324,11 +362,11 @@ function Cubelizr(init_config) {
 			// If it's defined a texture, and exist in the array, store it
 			var texture_mat = null;
 			if(obj_texture !== "")
-				texture_mat = $.grep(textures, function(e){ return e.id == obj_texture; });
+				texture_mat = $.grep(textures, function(e){ return e.id == obj_texture; })[0];
 			
 
 			// 1. Create object
-			var obj = new CubelizrObject(obj_type, tile_size, obj_color, texture_mat[0], obj_opacity);
+			var obj = new CubelizrObject(obj_type, init_config.tilesize, obj_color, texture_mat, obj_opacity);
 
 			// 2. Set initial position
 			obj.translate_object(obj_x, obj_y, obj_height);
@@ -338,10 +376,6 @@ function Cubelizr(init_config) {
 
 			// 4. Store object
 			world_objects.push(obj);
-
-			// 5. Add mesh to scene (?????????? do here???????)
-			// ??? scene.add(obj.getMesh());
-
 		});
 
 	};
@@ -381,10 +415,20 @@ function Cubelizr(init_config) {
 	};
 
 
+	//
+	// Parse funcs
+	//
+
+	var isValidHexColor = function(color) {
+		return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+	}
 	
 
 
-	initialize();
+	
+
+	// Start class process
+	validateUserInput();
 	
 }
 
@@ -405,20 +449,20 @@ function Cubelizr(init_config) {
 // 3D Object definition displayed in the world
 //
 
-function CubelizrObject(obj_type, tile_size, obj_color, obj_texture, obj_opacity) {
+function CubelizrObject(obj_type, obj_size, obj_color, obj_texture, obj_opacity) {
 
 	// textures
 
 	var geometry;
 	var mesh;
 	var material = null;
-	var tile_size = tile_size;
+	var size = obj_size;
 
 	// - 3dObject -
 	switch(obj_type) {
 		case "cube":
 		default:
-			geometry = new THREE.BoxGeometry( tile_size, tile_size, tile_size ); 
+			geometry = new THREE.BoxGeometry( size, size, size ); 
 	}
 
 	// - Texture -
@@ -443,9 +487,7 @@ function CubelizrObject(obj_type, tile_size, obj_color, obj_texture, obj_opacity
 
 	// - Mesh -
 	mesh = new THREE.Mesh( geometry, material );
-	// ???? this.mesh = mesh;
-
-
+	
 
 
 	//
@@ -459,9 +501,9 @@ function CubelizrObject(obj_type, tile_size, obj_color, obj_texture, obj_opacity
 	// Move object
 	this.translate_object = function(x, y, height) {
 
-		mesh.position.x = tile_size * x ;
+		mesh.position.x = size * x -size*4;
 		mesh.position.y = height;
-		mesh.position.z = tile_size * y ;
+		mesh.position.z = size * y -size*4;
 
 	}
 
@@ -469,7 +511,7 @@ function CubelizrObject(obj_type, tile_size, obj_color, obj_texture, obj_opacity
 
 		// - Tween -
 		var position = { y: height };
-		var target = { y: z * tile_size + tile_size/2 };
+		var target = { y: z * size + size/2 };
 
 		var tween = new TWEEN.Tween(position).to(target, duration*1000);
 
@@ -481,9 +523,6 @@ function CubelizrObject(obj_type, tile_size, obj_color, obj_texture, obj_opacity
 			mesh.position.y = position.y;
 		});
 
-		// ??? would be better to start the tween when the object is added to the scene?
-		tween.start();
-		
 		this.tween = tween;
 
 	}
