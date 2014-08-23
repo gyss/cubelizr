@@ -1,14 +1,91 @@
+<!DOCTYPE html>
 <html>
+<head>
 
-	<head>
-		<title>Cubelizr</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	</head>
+	
 
-	<body>
 
-		<!-- Libs required -->
+<style>
+
+	ul {
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	}
+
+	li {
+    	display: inline;
+	}
+
+	.menu_option {
+		width: 100px;
+		height: 100px; 
+	}
+
+	.sidebar {
+		float:left;
+	}
+
+	.content {
+		padding-left: 100px;
+		max-width: 1000px;
+	}
+
+	.color1 {
+		background-color: #FFBBFF;
+	}
+	.color2 {
+		background-color: #BBFFFF;
+	}
+	.color3 {
+		background-color: #FFFFBB;
+	}
+
+</style>
+
+</head>
+<body>
+
+	<h1>Cubelizr examples</h1>
+
+	<div class="sidebar">
+		<ul class="menu">
+			<li>
+				<a href="index.html?opt=1">
+					<div id="example1" class="menu_option color1"></div>
+				</a>
+			</li>
+
+			<li>
+				<a href="index.html?opt=2">
+					<div id="example2" class="menu_option color2"></div>
+				</a>
+			</li>
+
+			<li>
+				<a href="index.html?opt=3">
+					<div id="example3" class="menu_option color3"></div>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div class="content">
+
+		<div id="fullsize" class="color2">
+
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+	<!-- Libs required -->
 		<script src="js/lib/jquery.min.js"></script>
 		<script src="js/lib/three.min.js"></script>
 		<script src="js/lib/stats.min.js"></script>
@@ -28,9 +105,9 @@
 				var file3 = "cubelizr_simple.json";
 
 
-
 				var example1 = new Cubelizr({
 					url: file1,
+					width: 100,
 					tilesize: 5,
 					zone: "#example1",
 					gridsize: 8,
@@ -43,6 +120,7 @@
 
 				var example2 = new Cubelizr({
 					url: file2,
+					width: 100,
 					tilesize: 5,
 					zone: "#example2",
 					gridsize: 8
@@ -50,17 +128,24 @@
 
 				var example3 = new Cubelizr({
 					url: file3,
+					width: 100,
 					tilesize: 5,
 					zone: "#example3",
 					gridsize: 8
 				});
-				
+			
 
 				var url_full = file2;
 				switch(getUrlParameter("opt"))
 				{
-					case "1": url_full = file1; break;
-					case "3": url_full = file3; break;
+					case "1":
+						url_full = file1; 
+						$("#fullsize").removeClass("color2").addClass("color1");
+						break;
+					case "3":
+						url_full = file3; 
+						$("#fullsize").removeClass("color2").addClass("color3");
+						break;
 				};
 
 				var fullsize = new Cubelizr({
@@ -68,13 +153,9 @@
 					tilesize: 50,
 					zone: "#fullsize",
 					gridsize: 8,
-					backgroundColor: "#fff",
 					height: 500,
 					width: 1000
 				});
-
-
-			
 
 			});
 
@@ -94,31 +175,6 @@
 			}
 
 		</script>
-
-		<h3>Cubelizr examples</h3>
-		
-		<a href="index.html?opt=1">
-			<div id="example1" style="background-color: #aaff00; width: 100px; height: 100px; float: left">
-
-			</div>
-		</a>
-
-		<a href="index.html?opt=2">
-		<div id="example2" style="background-color: #00ff00; width: 100px; height: 100px; float: left">
-
-		</div>
-		</a>
-
-		<a href="index.html?opt=3">
-		<div id="example3" style="background-color: #36de00; width: 100px; height: 100px; float: left">
-
-		</div>
-		</a>
-
-		<div id="fullsize" style="background-color: #00ffaa">
-
-		</div>
-		
 
 </body>
 </html>

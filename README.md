@@ -6,7 +6,7 @@ cubelizr
 Build easily a cube-craft animated logo and put it in your web.
 Cubelizr uses Three.js and it only works in browsers compatible with WebGL.
 
-The only thing you have to do is to play with a JSON file to configure the desired design and animations.
+Setup a JSON file to configure the desired design and animations.
 We provide you some JSON examples.
 
 ## Prerequisites
@@ -16,20 +16,39 @@ We provide you some JSON examples.
 * [Optional] Stats - https://github.com/mrdoob/stats.js/
 
 
-## Installation
+## Demo
 
-Download all files required:
+Clone this repository and open index.html file in a browser
+
+## Requirements
+
+Libraries:
 * js/lib/jquery.min.js
 * js/lib/stats.min.js
 * js/lib/three.min.js
 * js/lib/tween.js
 * js/cubelizr.js
 
+Cubelizr:
 * cubelizr.json
 
-And reference all js files in your html.
-
 ## Configuration
+
+
+There are two sections to be aware when configure your Cubelizr
+
+* Setup
+	* zone: selector that points to the div that will be contains the Cubelizr.
+	* tilesize: tile size of a single cube (default 50).
+	* gridsize: number of tiles for the floor grid's side.
+	* url: URL for the cubelizr json.
+	* height: height of the canvas (if not defined, the height of the div will be used).
+	* width: width of the canvas (if not defined, the width of the div will be used).
+	* backgroundColor: color for the background of the canvas (if not defined, the background color of the div will be used).
+
+* Timeline
+	This is a separated JSON file that defines the parameters of each cube animation.
+
 
 All configuration is defined in cubelizr.json file.
 
