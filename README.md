@@ -18,7 +18,7 @@ We provide you some JSON examples.
 
 ## Demo
 
-Clone this repository and open index.html file in a browser
+Clone this repository and open index.html file in a browser.
 
 ## Requirements
 
@@ -61,6 +61,7 @@ There are two sections to be aware when configure your Cubelizr
 	},
 ```
 
+*
 	* Textures: here you can define textures for use them later in your cubes (referenced by unique ids). You have two choices, one texture for all sides of the cube or define all six textures.
 
 ```json
@@ -82,7 +83,7 @@ There are two sections to be aware when configure your Cubelizr
 		* texture: id of the selected texture from the array of textures defined previously.
 		* color: if you want just a plain color, you can set this to an hex RGB color (e.g. "#ff3300").
 		
-		* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in (this website)[http://sole.github.io/tween.js/examples/03_graphs.html].
+		* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in [this website](http://sole.github.io/tween.js/examples/03_graphs.html).
 		* start: second indicating the beginning of the animation.
 		* duration: duration of the animation. 
 
