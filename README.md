@@ -27,9 +27,9 @@ Libraries:
 * js/lib/stats.min.js
 * js/lib/three.min.js
 * js/lib/tween.js
-* js/cubelizr.js
 
 Cubelizr:
+* js/cubelizr.js
 * cubelizr.json
 
 ## Configuration
@@ -38,49 +38,53 @@ Cubelizr:
 There are two sections to be aware when configure your Cubelizr
 
 * Setup
-	* zone: selector that points to the div that will be contains the Cubelizr.
+	* zone: selector that points to the div that will contain the Cubelizr.
 	* tilesize: tile size of a single cube (default 50).
 	* gridsize: number of tiles for the floor grid's side.
-	* url: URL for the cubelizr json.
+	* url: URL for the cubelizr json (see Timeline).
 	* height: height of the canvas (if not defined, the height of the div will be used).
 	* width: width of the canvas (if not defined, the width of the div will be used).
 	* backgroundColor: color for the background of the canvas (if not defined, the background color of the div will be used).
 
 * Timeline
-	This is a separated JSON file that defines the parameters of each cube animation.
+	This is a separated JSON file that defines the parameters of each cube animation. This file is separated in theses sections: config, textures, defaults and objects.
+	* Config. It defines global behaviour.
+		* mouse_control: if set to 1, the camera will move accordingly to the mouse move.
+		* display_grid: if set to 1, the floor's grid will be displayed.
+		* display_stats: if set to 1, ThreeJS FPS stats will be displayed.
 
+```json
+	"config" : {
+		"mouse_control" : 1,
+		"display_grid" : 1,
+		"display_stats" : 0
+	},
+```
 
-All configuration is defined in cubelizr.json file.
-
-* config
-	* mouse_control: Enables the camera movement by the mouse 
-	* display_grid: Displays the vertex grid
-	* display_stats: Displays the stats box with the FPS info
-
-* textures
-	Here you have to declare all textures you are going to use and its ids. Those ids will be referenced by your objects. Obviously, they must be unique.
+	* Textures: here you can define textures for use them later in your cubes (referenced by unique ids). You have two choices, one texture for all sides of the cube or define all six textures.
 
 ```json
 	"textures": [
-		{ "id": 1, "url": "./img/textures/threejs.jpg"},
-		{ "id": 2, "url": "./img/textures/other.jpg"}
+		{ "id": 1, "url": ["./img/textures/threejs.jpg"]},
+		{ "id": 2, "url": ["./img/textures/1.png", "./img/textures/2.png", "./img/textures/3.png", "./img/textures/4.png", "./img/textures/5.png", "./img/textures/6.png"]}
 	],
 ```
 
-* defaults
-	This section allows you to define the default values for the objects parameters.
-	* type: Shape of the object. For now, you can only put "cube" here
-	* opacity: Transparency
-	* color: Default color for your objects. For example: #ff3300
-	* texture: Default texture for your objects. For example: 1. Notice that is the texture is defined it will overwrite the color value.
-	* start: Second when the object begins its animation
-	* duration: Duration of the animation
-	* animation: Type of animation. You can use all these: http://sole.github.io/tween.js/examples/03_graphs.html
-	* height: Initial height of the cubes (z axis)
+	* Objects: this is an array of objects that will appear in the scene depending on its parameters. Those are:
+		
+		* type: shape of the object. For now only "cube" is available.
+		* opacity: from 0.0 (transparent) to 1.0 (totally visible).
 
-* objects
-	Here you have to define all cubes that will be falling down. The most important thing in this section is to define where them fall. You can do it with the "x" and "y" parameters.
-	This system is tile based, so you can just define them with single digits.
+		* height: height from the animation will start.
+		* x: tile measured x position.
+		* y: tile measured y position.
+		
+		* texture: id of the selected texture from the array of textures defined previously.
+		* color: if you want just a plain color, you can set this to an hex RGB color (e.g. "#ff3300").
+		
+		* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in (this website)[http://sole.github.io/tween.js/examples/03_graphs.html].
+		* start: second indicating the beginning of the animation.
+		* duration: duration of the animation. 
 
 ```json
 	"objects": [
@@ -89,7 +93,20 @@ All configuration is defined in cubelizr.json file.
 	],
 ```
 
-	For each object you can define all the parameters commented before: opacity, duration, texture, etc.	
+	* Defaults: many of the previous params are probably common for all the objects of your animation. you can use this section for define the parameters that will be used by all the objects.
+
+```json
+	"defaults": {
+		"type": "cube",
+		"opacity": 1.0,
+		"start": 0.1,
+		"duration": 1.7,
+		"animation": "Quadratic.Out",
+		"height": 1000
+	},
+```
+
+	You can check some examples in cubelizr_*.json files.
 
 
 ## Troubleshooting
