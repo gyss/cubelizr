@@ -37,7 +37,7 @@ Cubelizr:
 
 There are two sections to be aware when configure your Cubelizr
 
-* Setup
+### Setup
 	* zone: selector that points to the div that will contain the Cubelizr.
 	* tilesize: tile size of a single cube (default 50).
 	* gridsize: number of tiles for the floor grid's side.
@@ -46,12 +46,12 @@ There are two sections to be aware when configure your Cubelizr
 	* width: width of the canvas (if not defined, the width of the div will be used).
 	* backgroundColor: color for the background of the canvas (if not defined, the background color of the div will be used).
 
-* Timeline
+### Timeline
 	This is a separated JSON file that defines the parameters of each cube animation. This file is separated in theses sections: config, textures, defaults and objects.
-	* Config. It defines global behaviour.
-		* mouse_control: if set to 1, the camera will move accordingly to the mouse move.
-		* display_grid: if set to 1, the floor's grid will be displayed.
-		* display_stats: if set to 1, ThreeJS FPS stats will be displayed.
+#### Config. It defines global behaviour.
+	* mouse_control: if set to 1, the camera will move accordingly to the mouse move.
+	* display_grid: if set to 1, the floor's grid will be displayed.
+	* display_stats: if set to 1, ThreeJS FPS stats will be displayed.
 
 ```json
 	"config" : {
@@ -61,8 +61,7 @@ There are two sections to be aware when configure your Cubelizr
 	},
 ```
 
-*
-	* Textures: here you can define textures for use them later in your cubes (referenced by unique ids). You have two choices, one texture for all sides of the cube or define all six textures.
+#### Textures: here you can define textures for use them later in your cubes (referenced by unique ids). You have two choices, one texture for all sides of the cube or define all six textures.
 
 ```json
 	"textures": [
@@ -71,21 +70,21 @@ There are two sections to be aware when configure your Cubelizr
 	],
 ```
 
-	* Objects: this is an array of objects that will appear in the scene depending on its parameters. Those are:
+#### Objects: this is an array of objects that will appear in the scene depending on its parameters. Those are:
 		
-		* type: shape of the object. For now only "cube" is available.
-		* opacity: from 0.0 (transparent) to 1.0 (totally visible).
+	* type: shape of the object. For now only "cube" is available.
+	* opacity: from 0.0 (transparent) to 1.0 (totally visible).
 
-		* height: height from the animation will start.
-		* x: tile measured x position.
-		* y: tile measured y position.
+	* height: height from the animation will start.
+	* x: tile measured x position.
+	* y: tile measured y position.
 		
-		* texture: id of the selected texture from the array of textures defined previously.
-		* color: if you want just a plain color, you can set this to an hex RGB color (e.g. "#ff3300").
+	* texture: id of the selected texture from the array of textures defined previously.
+	* color: if you want just a plain color, you can set this to an hex RGB color (e.g. "#ff3300").
 		
-		* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in [this website](http://sole.github.io/tween.js/examples/03_graphs.html).
-		* start: second indicating the beginning of the animation.
-		* duration: duration of the animation. 
+	* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in [this website](http://sole.github.io/tween.js/examples/03_graphs.html).
+	* start: second indicating the beginning of the animation.
+	* duration: duration of the animation. 
 
 ```json
 	"objects": [
@@ -94,7 +93,7 @@ There are two sections to be aware when configure your Cubelizr
 	],
 ```
 
-	* Defaults: many of the previous params are probably common for all the objects of your animation. you can use this section for define the parameters that will be used by all the objects.
+#### Defaults: many of the previous params are probably common for all the objects of your animation. you can use this section for define the parameters that will be used by all the objects.
 
 ```json
 	"defaults": {
