@@ -12,25 +12,12 @@ We provide you some JSON examples.
 ## Prerequisites
 * Three.js - http://threejs.org/
 * TweenJS - https://github.com/sole/tween.js/
-* JQuery - http://jquery.com/
 * [Optional] Stats - https://github.com/mrdoob/stats.js/
 
 
 ## Demo
 
-Clone this repository and open index.html file in a browser.
-
-## Requirements
-
-Libraries:
-* js/lib/jquery.min.js
-* js/lib/stats.min.js
-* js/lib/three.min.js
-* js/lib/tween.js
-
-Cubelizr:
-* js/cubelizr.js
-* cubelizr.json
+Visit http://gyss.github.io/cubelizr
 
 ## Configuration
 
@@ -41,12 +28,12 @@ There are two sections to be aware when configure your Cubelizr
 	* zone: selector that points to the div that will contain the Cubelizr.
 	* tilesize: tile size of a single cube (default 50).
 	* gridsize: number of tiles for the floor grid's side.
-	* url: URL for the cubelizr json (see Timeline).
+	* url: URL for the cubelizr json (see Scene).
 	* height: height of the canvas (if not defined, the height of the div will be used).
 	* width: width of the canvas (if not defined, the width of the div will be used).
 	* backgroundColor: color for the background of the canvas (if not defined, the background color of the div will be used).
 
-### Timeline
+### Scene
 	This is a separated JSON file that defines the parameters of each cube animation. This file is separated in theses sections: config, textures, defaults and objects.
 #### Config. It defines global behaviour.
 	* mouse_control: if set to 1, the camera will move accordingly to the mouse move.
