@@ -1,4 +1,4 @@
-{
+var demoCubelizrTextures = {
 	"config" : {
 		"mouse_control" : 1,
 		"display_grid" : 1,
@@ -6,7 +6,7 @@
 	},
 
 	"textures": [
-		{ "id": 1, "url": ["./img/textures/threejs.jpg"]},
+		{ "id": 1, "url": ["./img/textures/1.png"]},
 		{ "id": 2, "url": ["./img/textures/1.png", "./img/textures/2.png", "./img/textures/3.png", "./img/textures/4.png", "./img/textures/5.png", "./img/textures/6.png"]},
 		{ "id": 3, "url": ["./img/textures/5.png", "./img/textures/2.png", "./img/textures/1.png", "./img/textures/6.png", "./img/textures/3.png", "./img/textures/4.png"]}
 	],
@@ -108,4 +108,4 @@
 		{ "x": 5, "y": 5, "texture": 3, "start": 8.5, "z": 3}
 		
 	]
-}
+};

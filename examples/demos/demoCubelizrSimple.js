@@ -1,4 +1,4 @@
-{
+var demoCubelizrSimple = {
 	"config" : {
 		"mouse_control" : 1,
 		"display_grid" : 1,
@@ -6,8 +6,8 @@
 	},
 
 	"textures": [
-		{ "id": 1, "url": ["./img/textures/threejs.jpg"]},
-		{ "id": 2, "url": ["./img/textures/1.png", "./img/textures/2.png", "./img/textures/3.png", "./img/textures/4.png", "./img/textures/5.png", "./img/textures/6.png"]}
+		{ "id": 1, "url": ["./img/textures/t2.png"]},
+		{ "id": 2, "url": ["./img/textures/t5.png", "./img/textures/t5.png", "./img/textures/t4.png", "./img/textures/t5.png", "./img/textures/t5.png", "./img/textures/t5.png"]}
 	],
 
 	"defaults": {
@@ -31,17 +31,17 @@
 		{ "x": 1, "y": 6, "color": "#777777", "start": 3.1},
 		{ "x": 6, "y": 6, "color": "#777777", "start": 3.1},
 
-		{ "x": 2, "y": 2, "start": 6.1, "opacity": 0.5},
-		{ "x": 5, "y": 2, "start": 6.1, "opacity": 0.5},
-		{ "x": 2, "y": 5, "start": 6.1, "opacity": 0.5},
-		{ "x": 5, "y": 5, "start": 6.1, "opacity": 0.5},
+		{ "x": 2, "y": 2, "start": 6.1, "texture": 1, "opacity": 0.5},
+		{ "x": 5, "y": 2, "start": 6.1, "texture": 1, "opacity": 0.5},
+		{ "x": 2, "y": 5, "start": 6.1, "texture": 1, "opacity": 0.5},
+		{ "x": 5, "y": 5, "start": 6.1, "texture": 1, "opacity": 0.5},
 
-		{ "x": 3, "y": 3, "start": 6.1, "texture": 1},
+		{ "x": 3, "y": 3, "start": 6.1, "texture": 2},
 		{ "x": 4, "y": 3, "start": 6.1, "texture": 2},
-		{ "x": 3, "y": 4, "start": 6.1, "texture": 1},
+		{ "x": 3, "y": 4, "start": 6.1, "texture": 2},
 		{ "x": 4, "y": 4, "start": 6.1, "texture": 2},
 
 		{ "color": "#00ff00", "x": 3.5, "y": 3.5, "z": 1, "height": 300, "start": 0.1, "animation": "Bounce.In"}
 
 	]
-}
+};

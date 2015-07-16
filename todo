@@ -1,0 +1,27 @@
+
+jslint
+
+compilar y minificar en dist
+
+eventos posibles ? - promises ?
+
+subir a bower?
+
+documentar.
+
+comitear.
+
+subir eejmplo a github pages o jsfiddle
+
+
+
+
+issues
+
+solve background color bug
+
+if(typeof init_config.backgroundColor == 'undefined' || !isValidHexColor(init_config.backgroundColor))
+				init_config.backgroundColor = ccc.style.backgroundColor
+
+
+arreglar grid

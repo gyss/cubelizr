@@ -1,4 +1,4 @@
-{
+var demoCuberlizr = {
 	
 	"defaults": {
 		"type": "cube",
@@ -105,4 +105,4 @@
 		{ "x": 4, "y": 4, "color": "#ffff00", "start": 6.6, "z": 3}
 		
 	]
-}
+};
