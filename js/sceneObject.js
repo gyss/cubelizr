@@ -20,9 +20,7 @@ var SceneObject = (function (obj_type, obj_size, obj_color, obj_texture, obj_opa
 	var size = obj_size;
 
 	/**
-	* Prepare DOM element for the canvas
-	* Read user data and begin drawing the scene
-	* This function is executed automatically once the object is created
+	* Creates the ThreeJS primitive and applies the texture
 	*
 	* @method init
 	*/
