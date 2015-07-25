@@ -6,7 +6,9 @@
     "Gravedian <gravedian@gmail.com>"
   ],
   "description": "Create cube animations",
-  "main": "dist/cubelizr.min.js",
+  "main": [
+    "dist/cubelizr.min.js"
+  ],
   "keywords": [
     "javascript",
     "3d",
@@ -17,7 +19,6 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "jquery": "1.11.1",
     "tween.js": "tweenjs/tween.js",
     "three.js": "~0.71.0"
   }

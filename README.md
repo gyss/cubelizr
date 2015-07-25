@@ -6,8 +6,8 @@ cubelizr
 Build easily a cube-craft animated logo and put it in your web.
 Cubelizr uses Three.js and it only works in browsers compatible with WebGL.
 
-Setup a JSON file to configure the desired design and animations.
-We provide you some JSON examples.
+Setup a JS object to configure the desired design and animations.
+We provide you some examples.
 
 ## Prerequisites
 * Three.js - http://threejs.org/
@@ -19,26 +19,29 @@ We provide you some JSON examples.
 
 Visit http://gyss.github.io/cubelizr
 
-## Configuration
+## Installation
 
+Download dist/cubelizr.min.js or install via `$ bower install cubelizr`
+
+## Configuration
 
 There are two sections to be aware when configure your Cubelizr
 
 ### Setup
-	* zone: selector that points to the div that will contain the Cubelizr.
-	* tilesize: tile size of a single cube (default 50).
-	* gridsize: number of tiles for the floor grid's side.
-	* url: URL for the cubelizr json (see Scene).
-	* height: height of the canvas (if not defined, the height of the div will be used).
-	* width: width of the canvas (if not defined, the width of the div will be used).
-	* backgroundColor: color for the background of the canvas (if not defined, the background color of the div will be used).
+* zone: selector that points to the div that will contain the Cubelizr.
+* tilesize: tile size of a single cube (default 50).
+* gridsize: number of tiles for the floor grid's side.
+* url: URL for the cubelizr json (see Scene).
+* height: height of the canvas (if not defined, the height of the div will be used).
+* width: width of the canvas (if not defined, the width of the div will be used).
+* backgroundColor: color for the background of the canvas (if not defined, the background color of the div will be used).
 
 ### Scene
-	This is a separated JSON file that defines the parameters of each cube animation. This file is separated in theses sections: config, textures, defaults and objects.
-#### Config. It defines global behaviour.
-	* mouse_control: if set to 1, the camera will move accordingly to the mouse move.
-	* display_grid: if set to 1, the floor's grid will be displayed.
-	* display_stats: if set to 1, ThreeJS FPS stats will be displayed.
+This object contains the defeinitiion of each cube animation. It is separated in these three sections: config, textures, defaults and objects.
+#### Config: global behaviour.
+* mouse_control: if set to 1, the camera will move accordingly to the mouse move.
+* display_grid: if set to 1, the floor's grid will be displayed.
+* display_stats: if set to 1, ThreeJS FPS stats will be displayed.
 
 ```json
 	"config" : {
@@ -59,19 +62,16 @@ There are two sections to be aware when configure your Cubelizr
 
 #### Objects: this is an array of objects that will appear in the scene depending on its parameters. Those are:
 		
-	* type: shape of the object. For now only "cube" is available.
-	* opacity: from 0.0 (transparent) to 1.0 (totally visible).
-
-	* height: height from the animation will start.
-	* x: tile measured x position.
-	* y: tile measured y position.
-		
-	* texture: id of the selected texture from the array of textures defined previously.
-	* color: if you want just a plain color, you can set this to an hex RGB color (e.g. "#ff3300").
-		
-	* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in [this website](http://sole.github.io/tween.js/examples/03_graphs.html).
-	* start: second indicating the beginning of the animation.
-	* duration: duration of the animation. 
+* type: shape of the object. For now only "cube" is available.
+* opacity: from 0.0 (transparent) to 1.0 (totally visible).
+* height: height from the animation will start.
+* x: tile measured x position.
+* y: tile measured y position.
+* texture: id of the selected texture from the array of textures defined previously.
+* color: if you want just a plain color, you can set this to an hex RGB color (e.g. "#ff3300").
+* animation: type of the animation (e.g. "Quadratic.In"). You can check every animation available in [this page](http://sole.github.io/tween.js/examples/03_graphs.html).
+* start: second indicating the beginning of the animation.
+* duration: duration of the animation. 
 
 ```json
 	"objects": [
@@ -93,12 +93,9 @@ There are two sections to be aware when configure your Cubelizr
 	},
 ```
 
-	You can check some examples in cubelizr_*.json files.
-
-
 ## Troubleshooting
 
 If you notice that the animation is not working correctly make sure javascript is not crashing.
-Open the console of your browser and refresh the page.
+Open the inspector/console of your browser and refresh the page.
 
 If nothing else works, just open a ticket and we will solve it as soon as possible.
